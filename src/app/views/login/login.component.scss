@@ -1,0 +1,37 @@
+.login-wrapper {
+  min-height: 100vh;
+  background: url("/img/FondoPantalla.jpg") no-repeat center center;
+  background-size: cover;
+  background-color: #000000cc; // fallback oscuro con transparencia
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background-color: #1c1c1cdd; // fondo oscuro translúcido
+  border-radius: 15px;
+
+  .form-control {
+    background-color: #2c2c2c;
+    border: none;
+    color: white;
+
+    &::placeholder {
+      color: #aaa;
+    }
+  }
+
+  .form-label {
+    font-weight: 500;
+  }
+
+  .btn {
+    background-color: #007bff;
+    border: none;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}

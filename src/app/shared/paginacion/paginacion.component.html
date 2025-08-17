@@ -1,0 +1,41 @@
+<nav>
+    <ul class="pagination justify-content-center">
+
+        <!-- Botón: Ir al inicio -->
+        <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="selectPage(1)" title="Primera página">
+                ⏮
+            </button>
+        </li>
+
+        <!-- Botón: Anterior -->
+        <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="selectPage(currentPage - 1)" title="Página anterior">
+                ◀
+            </button>
+        </li>
+
+        <!-- Rango de páginas -->
+        @for (page of visiblePages; track page) {
+        <li class="page-item" [class.active]="page === currentPage">
+            <button class="page-link" (click)="selectPage(page)">
+                {{ page }}
+            </button>
+        </li>
+        }
+
+        <!-- Botón: Siguiente -->
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="selectPage(currentPage + 1)" title="Página siguiente">
+                ▶
+            </button>
+        </li>
+
+        <!-- Botón: Ir al final -->
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="selectPage(totalPages)" title="Última página">
+                ⏭
+            </button>
+        </li>
+    </ul>
+</nav>

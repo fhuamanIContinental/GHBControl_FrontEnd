@@ -1,0 +1,125 @@
+<div class="content-wrapper">
+    <section class="content p-3">
+        <div class="container-fluid">
+            <div class="card shadow-sm rounded">
+                <!-- Encabezado con botón alineado a la derecha -->
+                <div class="card-header bg-dark text-white d-flex align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-users me-2"></i> Mantenimiento de Personas
+                    </h5>
+                </div>
+
+                <!-- Contenido de la tabla -->
+                <div class="card-body bg-white p-3">
+
+                    <!-- Buscador responsive -->
+                    <form [formGroup]="formFilter">
+                        <div class="form-group mb-3">
+                            <div class="row g-2 align-items-end">
+
+                                <!-- Nombre -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <label for="nombre" class="form-label"><b>Nombre</b></label>
+                                    <input type="text" formControlName="fullname" class="form-control"
+                                        placeholder="Buscar por nombre">
+                                </div>
+
+                                <!-- Documento -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <label for="documento" class="form-label"><b>Documento</b></label>
+                                    <input type="text" formControlName="document" class="form-control"
+                                        placeholder="Buscar Número de Documento" appNumbersOnly>
+                                </div>
+
+                                <!-- Botón -->
+                                <div class="col-12 col-md-4 col-sm-12 mt-3">
+                                    <div class="d-flex gap-3"> <!-- gap-3 para más separación -->
+                                        <button (click)="btnLimpiar()" class="btn btn-danger btn-sm flex-grow-1">
+                                            <i class="fas fa-broom me-1"></i> Limpiar <!-- Icono más apropiado -->
+                                        </button>
+                                        <button (click)="btnBuscar()" class="btn btn-primary btn-sm flex-grow-1">
+                                            <i class="fas fa-search me-1"></i> Buscar
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+
+
+                    <!-- Tabla de resultados -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle">
+                            <thead class="table-primary text-center">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tipo Documento</th>
+                                    <th>Tipo Persona</th>
+                                    <th>Documento</th>
+                                    <th>Apellido Paterno</th>
+                                    <th>Apellido Materno</th>
+                                    <th>Nombres</th>
+                                    <th>Fecha Nacimiento</th>
+                                    <th>Género</th>
+                                    <th>Estado</th>
+                                    <th>
+                                        <button (click)="addItem()" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-plus me-1"></i> Crear
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                @for (item of personas; track $index) {
+                                <tr>
+                                    <td>{{ item.id }}</td>
+                                    <td>{{ item.tipoDocumento }}</td>
+                                    <td>{{ item.tipoPersona }}</td>
+                                    <td>
+                                        <span class="text-muted fst-italic">{{ item.document }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted fst-italic">{{ item.lastNameFirst }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted fst-italic">{{ item.lastNameSecond }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted fst-italic">{{ item.name }}</span>
+                                    </td>
+                                    <td>{{ item.birthDate | date: 'dd/MM/yyyy' }}</td>
+                                    <td>{{ item.genero }}</td>
+                                    <td>
+                                        <span [ngClass]="item.idStatus === 1 ? 'bg-success' : 'bg-danger'"
+                                            class="badge">
+                                            {{ item.estado }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button (click)="editItem(item)" class="btn btn-sm btn-primary me-1">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Paginación -->
+                    <app-paginacion [totalItems]="totalItems" [itemsPerPage]="filter.quantity"
+                        [currentPage]="filter.page" (pageChanged)="onPageChanged($event)">
+                    </app-paginacion>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<app-modal #modal title="{{titleModal}}"></app-modal>

@@ -1,0 +1,26 @@
+<div class="position-relative">
+  <input
+    type="text"
+    class="form-control bg-dark text-white"
+    [placeholder]="placeholder"
+    [value]="inputText"
+    (input)="onInputChange($event)"
+    (focus)="showDropdown = true"
+    (blur)="onBlur()"
+    autocomplete="off"
+  />
+
+  <ul
+    class="list-group position-absolute w-100 z-3"
+    [class.d-none]="!showDropdown || filteredOptions.length === 0"
+  >
+    @for (option of filteredOptions; track $index) {
+    <li
+      class="list-group-item list-group-item-action"
+      (mousedown)="selectOption(option)"
+    >
+      {{ option[displayKey] }}
+    </li>
+    }
+  </ul>
+</div>

@@ -1,0 +1,39 @@
+<div class="login-wrapper d-flex align-items-center justify-content-center">
+  <div class="card login-card shadow-lg p-4">
+    <h2 class="text-white text-center mb-4">Iniciar Sesión</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group mb-3">
+        <label for="idInstitucion" class="form-label text-white"
+          >Seleccione su institución</label
+        >
+        <app-autocomplete-input
+          [options]="instituciones"
+          [displayKey]="'text'"
+          [placeholder]="'Seleccione su institución'"
+          (valueSelected)="onInstitucionSeleccionada($event)"
+        ></app-autocomplete-input>
+      </div>
+      <div class="form-group mb-3">
+        <label for="username" class="form-label text-white">Usuario</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          class="form-control"
+          placeholder="Ingresa tu usuario"
+        />
+      </div>
+      <div class="form-group mb-4">
+        <label for="password" class="form-label text-white">Contraseña</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          placeholder="Ingresa tu contraseña"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+    </form>
+  </div>
+</div>

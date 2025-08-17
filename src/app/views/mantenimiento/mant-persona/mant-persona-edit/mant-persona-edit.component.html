@@ -1,0 +1,87 @@
+<div class="card">
+    <div class="card-body">
+        <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
+            <!-- Sección de información básica -->
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="tipoPersona" class="form-label">Tipo de Persona</label>
+                    <select class="form-select" id="tipoPersona" formControlName="id_person_type">
+                        @for (tipo of personTypes; track tipo.id) {
+                        <option [value]="tipo.id">{{ tipo.description }}</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
+                    <select class="form-select" id="tipoDocumento" formControlName="id_person_type_document">
+                        @for (doc of documentTypes; track doc.id) {
+                        <option [value]="doc.id">{{ doc.code }}</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="documento" class="form-label">Número de Documento</label>
+                    <input type="text" class="form-control" id="documento" formControlName="document">
+                </div>
+            </div>
+
+            <!-- Sección de nombres -->
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="nombres" class="form-label">Nombres</label>
+                    <input type="text" class="form-control" id="nombres" formControlName="name">
+                </div>
+                <div class="col-md-4">
+                    <label for="apellidoPaterno" class="form-label">Apellido Paterno</label>
+                    <input type="text" class="form-control" id="apellidoPaterno" formControlName="lastNameFirst">
+                </div>
+                <div class="col-md-4">
+                    <label for="apellidoMaterno" class="form-label">Apellido Materno</label>
+                    <input type="text" class="form-control" id="apellidoMaterno" formControlName="lastNameSecond">
+                </div>
+            </div>
+
+            <!-- Sección de datos adicionales -->
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <div class="p-field">
+                        <app-date-input label="Fecha de Nacimiento" formControlName="birthDate"></app-date-input>
+
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <label for="genero" class="form-label">Género</label>
+                    <select class="form-select" id="genero" formControlName="id_gender">
+                        @for (genero of genders; track genero.id) {
+                        <option [value]="genero.id">{{ genero.code }}</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="tipoSangre" class="form-label">Tipo de Sangre</label>
+                    <input type="text" class="form-control" id="tipoSangre" formControlName="blood_type">
+                </div>
+                <div class="col-md-3">
+                    <label for="estado" class="form-label">Estado</label>
+                    <select class="form-select" id="estado" formControlName="id_status">
+                        <option value="1">ACTIVO</option>
+                        <option value="0">INACTIVO</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="row">
+                <div class="col-md-12 text-end">
+                    <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!personForm.valid">
+                        <i class="bi bi-save"></i> Guardar Cambios
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
