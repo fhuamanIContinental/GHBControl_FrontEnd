@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GenericFilterRequest } from '../../../models/GenericFilterRequest';
-import { MantPersonaService } from './services/mant-persona.service';
+
 import { VistaPersonaResponse } from '../../../models/VistaPersonaResponse';
 import { GenericFilterResponse } from '../../../models/GenericFilterResponse';
 import { SHARED_MANT_IMPORTS } from '../../../shared/shared-mant';
@@ -8,6 +8,7 @@ import { ModalComponent } from '../../../shared/modal/modal.component';
 import { MantPersonaEditComponent } from './mant-persona-edit/mant-persona-edit.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NumbersOnlyDirective } from '../../../directivas/NumbersOnlyDirective';
+import { MantPersonaService } from '../../../services/mant-persona.service';
 
 
 
@@ -56,13 +57,10 @@ export class MantPersonaComponent implements OnInit {
   }
 
   openModal() {
-
     this.modal.open(MantPersonaEditComponent, {
       size: 'xxl',
-      data: {
-        message: 'Hola desde el modal',
-        itemSelected: this.itemSelected
-      }
+      data: this.itemSelected
+
     });
   }
 

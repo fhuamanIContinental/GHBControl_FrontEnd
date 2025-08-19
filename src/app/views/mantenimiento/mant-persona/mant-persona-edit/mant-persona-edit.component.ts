@@ -1,11 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PersonGenderService } from '../services/person-gender.service';
-import { PersonTypeDocumentService } from '../services/person-type-document.service';
-import { PersonTypeService } from '../services/person-type.service';
-import { PersonService } from '../services/person.service';
 import { SHARED_MANT_IMPORTS } from '../../../../shared/shared-mant';
+import { PersonGenderService } from '../../../../services/person-gender.service';
+import { PersonTypeDocumentService } from '../../../../services/person-type-document.service';
+import { PersonTypeService } from '../../../../services/person-type.service';
+import { PersonService } from '../../../../services/person.service';
+import { PersonTypeResponse } from '../../../../models/person-type-response.model';
+import { AutocompleteResponse } from '../../../../models/autocomplete-response.model';
+import { VistaPersonaResponse } from '../../../../models/VistaPersonaResponse';
+
 
 
 @Component({
@@ -16,12 +20,12 @@ import { SHARED_MANT_IMPORTS } from '../../../../shared/shared-mant';
 })
 export class MantPersonaEditComponent implements OnInit {
 
-  @Input() data: any;
+  @Input() data: VistaPersonaResponse = new VistaPersonaResponse();
 
 
   personForm: FormGroup;
   personId: number = 0;
-  personTypes: any[] = [];
+  personTypes: AutocompleteResponse[] = [];
   documentTypes: any[] = [];
   genders: any[] = [];
 
@@ -37,7 +41,7 @@ export class MantPersonaEditComponent implements OnInit {
   ) {
 
     this.personForm = this.fb.group({
-      id_person_type: ['', Validators.required],
+      idPersonType: [null, Validators.required],
       id_person_type_document: ['', Validators.required],
       document: ['', [Validators.required, Validators.maxLength(20)]],
       name: ['', [Validators.required, Validators.maxLength(100)]],
@@ -51,14 +55,11 @@ export class MantPersonaEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data.itemSelected);
+
+    console.log(this.data);
+
+
     this.personId = this.route.snapshot.params['id'];
-
-    const item = { ...this.data.itemSelected };
-    if (item.birthDate) {
-      this.data.itemSelected = this.formatDate(item.birthDate);
-    }
-
     // Cargar datos de combos
     this.loadPersonTypes();
     this.loadDocumentTypes();
@@ -67,16 +68,30 @@ export class MantPersonaEditComponent implements OnInit {
     if (this.personId) {
       this.loadPersonData();
     }
-    this.personForm.patchValue(this.data.itemSelected);
+
+
+    setTimeout(() => {
+      this.personForm.patchValue(this.data);
+      this.personForm.patchValue({
+        idPersonType: this.personTypes.find(x => x.id === this.data.idPersonType) || null
+      });
+    }, 3000);
   }
 
 
 
 
   loadPersonTypes(): void {
-    // this.personTypeService.getAll().subscribe(data => {
-    //   this.personTypes = data;
-    // });
+    this.personTypeService.getAutoComplete().subscribe({
+      next: (data: AutocompleteResponse[]) => {
+        this.personTypes = data;
+
+      },
+      error: (err) => { },
+      complete: () => { }
+
+
+    });
   }
 
   loadDocumentTypes(): void {
@@ -145,4 +160,18 @@ export class MantPersonaEditComponent implements OnInit {
   onCancel(): void {
     this.router.navigate(['/personas']);
   }
+
+  searchPersonTypes(query: string) {
+    this.personTypes = [
+      { id: 1, text: 'Natural' },
+      { id: 2, text: 'Jurídica' }
+    ].filter(p => p.text.toLowerCase().includes(query.toLowerCase()));
+
+    setTimeout(() => {
+      console.log(this.personForm.getRawValue());
+
+    }, 1000);
+
+  }
+
 }

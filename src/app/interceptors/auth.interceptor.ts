@@ -11,8 +11,15 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const sessionService = inject(SessionService);
     const notificationService = inject(NotificationService);
 
-    const token = sessionService.getSessionVariable(SessionConstants.token);
+
+    const loginResponse: any = sessionService.getSessionObject(SessionConstants.loginResponse);
     let institucion_id = sessionService.getSessionVariable(SessionConstants.institucion) || '0';
+    const token = loginResponse ? loginResponse.token : null;
+
+    if (!institucion_id || institucion_id === '0') {
+        institucion_id = '0'; // Default value if not set
+    }
+
 
     const headers: Record<string, string> = { Institucion: institucion_id };
     if (token) headers['Authorization'] = `Bearer ${token}`;

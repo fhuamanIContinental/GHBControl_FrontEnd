@@ -6,8 +6,8 @@ export const urlConstants = {
 
     institucion: `${apiUrl}/api/institucion`,
     login: `${apiUrl}/api/auth`,
-    persona: `${apiUrl}/api/persona`
-
+    persona: `${apiUrl}/api/persona`,
+    personaType: `${apiUrl}/api/PersonType`,
 }
 
 

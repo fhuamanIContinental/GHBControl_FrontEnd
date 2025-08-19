@@ -22,12 +22,13 @@ export class DateInputComponent implements ControlValueAccessor {
   @Input() showIcon: boolean = true;
 
   value: Date | null = null;
+  disabled = false;
 
   private onChange: (value: Date | null) => void = () => { };
   private onTouched: () => void = () => { };
 
   writeValue(value: Date | null): void {
-    this.value = value;
+    this.value = value ? new Date(value) : null;
   }
 
   registerOnChange(fn: (value: Date | null) => void): void {
@@ -36,6 +37,10 @@ export class DateInputComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
   setValue(value: Date | null) {

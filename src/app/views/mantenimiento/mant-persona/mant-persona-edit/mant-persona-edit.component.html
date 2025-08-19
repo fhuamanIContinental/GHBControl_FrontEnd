@@ -2,14 +2,11 @@
     <div class="card-body">
         <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
             <!-- Sección de información básica -->
-            <div class="row mb-3">
+            <div class="row mt-3">
                 <div class="col-md-4">
-                    <label for="tipoPersona" class="form-label">Tipo de Persona</label>
-                    <select class="form-select" id="tipoPersona" formControlName="id_person_type">
-                        @for (tipo of personTypes; track tipo.id) {
-                        <option [value]="tipo.id">{{ tipo.description }}</option>
-                        }
-                    </select>
+                    <app-auto-complete-form formControlName="idPersonType" label="Tipo de persona"
+                        inputId="tipo_persona" [suggestions]="personTypes" (search)="searchPersonTypes($event)">
+                    </app-auto-complete-form>
                 </div>
                 <div class="col-md-4">
                     <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
@@ -45,6 +42,7 @@
             <div class="row mb-3">
                 <div class="col-md-3">
                     <div class="p-field">
+                        <label for="birthDate" class="form-label">Fecha de nacimiento</label>
                         <app-date-input label="Fecha de Nacimiento" formControlName="birthDate"></app-date-input>
 
                     </div>

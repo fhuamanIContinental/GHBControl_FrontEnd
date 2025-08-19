@@ -1,0 +1,7 @@
+<p-floatlabel>
+  <p-autocomplete [suggestions]="suggestions" [ngModel]="value" (ngModelChange)="onChange($event)"
+    (completeMethod)="onSearch($event)" (onSelect)="onSelect($event.value)" (onClear)="onClear()" [dropdown]="true"
+    [disabled]="disabled" [optionLabel]="optionLabel" [inputId]="inputId" fluid>
+  </p-autocomplete>
+  <label [for]="inputId">{{ label }}</label>
+</p-floatlabel>

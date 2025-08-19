@@ -4,7 +4,7 @@ import { PaginacionComponent } from './paginacion/paginacion.component';
 import { ModalComponent } from './modal/modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DateInputComponent } from './date-input/date-input.component';
-
+import { AutoCompleteFormComponent } from './auto-complete-form-component/app-auto-complete-form.component';
 export const SHARED_MANT_IMPORTS = [
     CommonModule,
     AutocompleteInputComponent,
@@ -15,5 +15,6 @@ export const SHARED_MANT_IMPORTS = [
     CurrencyPipe,
     DecimalPipe,
     PaginacionComponent,
-    DateInputComponent
+    DateInputComponent,
+    AutoCompleteFormComponent,
 ];
