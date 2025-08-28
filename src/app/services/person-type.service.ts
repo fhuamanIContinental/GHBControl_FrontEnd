@@ -19,7 +19,7 @@ export class PersonTypeService {
   }
 
   getAutoComplete(): Observable<AutocompleteResponse[]> {
-    return this.http.get<AutocompleteResponse[]>(`${this.apiUrl}/autocomplete/*`);
+    return this.http.get<AutocompleteResponse[]>(`${this.apiUrl}/autocomplete`);
   }
 
 

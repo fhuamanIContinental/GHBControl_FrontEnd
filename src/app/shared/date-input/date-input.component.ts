@@ -2,11 +2,12 @@ import { Component, Input, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
+import { FloatLabel } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-date-input',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DatePicker],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, DatePicker, FloatLabel],
   templateUrl: './date-input.component.html',
   styleUrls: ['./date-input.component.css'],
   providers: [
@@ -20,7 +21,7 @@ import { DatePicker } from 'primeng/datepicker';
 export class DateInputComponent implements ControlValueAccessor {
   @Input() placeholder: string = 'Selecciona una fecha';
   @Input() showIcon: boolean = true;
-
+  @Input() floatLabel: string = '';
   value: Date | null = null;
   disabled = false;
 

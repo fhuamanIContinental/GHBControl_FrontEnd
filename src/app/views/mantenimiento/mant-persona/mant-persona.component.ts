@@ -15,7 +15,7 @@ import { MantPersonaService } from '../../../services/mant-persona.service';
 
 @Component({
   selector: 'app-mant-persona',
-  imports: [SHARED_MANT_IMPORTS, NumbersOnlyDirective],
+  imports: [SHARED_MANT_IMPORTS, NumbersOnlyDirective, MantPersonaEditComponent],
   templateUrl: './mant-persona.component.html',
   styleUrl: './mant-persona.component.scss'
 })
@@ -44,10 +44,13 @@ export class MantPersonaComponent implements OnInit {
   }
 
 
+  visible: boolean = false;
+
   addItem() {
+    this.visible = true;
     this.itemSelected = new VistaPersonaResponse();
     this.titleModal = 'Nuevo Registro Persona';
-    this.openModal();
+    // this.openModal();
   }
 
   editItem(data: VistaPersonaResponse) {

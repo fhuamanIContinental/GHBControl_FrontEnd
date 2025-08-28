@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SHARED_MANT_IMPORTS } from '../../../../shared/shared-mant';
@@ -6,7 +6,6 @@ import { PersonGenderService } from '../../../../services/person-gender.service'
 import { PersonTypeDocumentService } from '../../../../services/person-type-document.service';
 import { PersonTypeService } from '../../../../services/person-type.service';
 import { PersonService } from '../../../../services/person.service';
-import { PersonTypeResponse } from '../../../../models/person-type-response.model';
 import { AutocompleteResponse } from '../../../../models/autocomplete-response.model';
 import { VistaPersonaResponse } from '../../../../models/VistaPersonaResponse';
 
@@ -26,30 +25,34 @@ export class MantPersonaEditComponent implements OnInit {
   personForm: FormGroup;
   personId: number = 0;
   personTypes: AutocompleteResponse[] = [];
+  personTypeDocuments: AutocompleteResponse[] = [];
+  personGender: AutocompleteResponse[] = [];
   documentTypes: any[] = [];
   genders: any[] = [];
+
+
+  _personService = inject(PersonService);
+  _personTypeService = inject(PersonTypeService);
+  _personTypeDocumentService = inject(PersonTypeDocumentService);
+  _personGenderService = inject(PersonGenderService);
+
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private personService: PersonService,
-    private personTypeService: PersonTypeService,
-    private personTypeDocumentService: PersonTypeDocumentService,
-    private personGenderService: PersonGenderService
-
   ) {
 
     this.personForm = this.fb.group({
       idPersonType: [null, Validators.required],
-      id_person_type_document: ['', Validators.required],
-      document: ['', [Validators.required, Validators.maxLength(20)]],
-      name: ['', [Validators.required, Validators.maxLength(100)]],
-      lastNameFirst: ['', [Validators.required, Validators.maxLength(100)]],
-      lastNameSecond: ['', [Validators.maxLength(100)]],
-      blood_type: ['', Validators.maxLength(5)],
+      idPersonTypeDocument: [null, Validators.required],
+      document: [null, [Validators.required, Validators.maxLength(20)]],
+      name: [null, [Validators.required, Validators.maxLength(100)]],
+      lastNameFirst: [null, [Validators.required, Validators.maxLength(100)]],
+      lastNameSecond: [null, [Validators.maxLength(100)]],
+      blood_type: [null, Validators.maxLength(5)],
       birthDate: [new Date(), []],
-      id_gender: [''],
+      idGender: [null, [Validators.required]],
       id_status: ['1', Validators.required]
     });
   }
@@ -65,15 +68,14 @@ export class MantPersonaEditComponent implements OnInit {
     this.loadDocumentTypes();
     this.loadGenders();
 
-    if (this.personId) {
-      this.loadPersonData();
-    }
 
 
     setTimeout(() => {
       this.personForm.patchValue(this.data);
       this.personForm.patchValue({
-        idPersonType: this.personTypes.find(x => x.id === this.data.idPersonType) || null
+        idPersonType: this.personTypes.find(x => x.id === this.data.idPersonType) || null,
+        idPersonTypeDocument: this.personTypeDocuments.find(x => x.id === this.data.idPersonTypeDocument) || null,
+        idGender: this.personGender.find(x => x.id === this.data.idGender) || null,
       });
     }, 3000);
   }
@@ -82,45 +84,40 @@ export class MantPersonaEditComponent implements OnInit {
 
 
   loadPersonTypes(): void {
-    this.personTypeService.getAutoComplete().subscribe({
+    this._personTypeService.getAutoComplete().subscribe({
       next: (data: AutocompleteResponse[]) => {
         this.personTypes = data;
 
       },
       error: (err) => { },
       complete: () => { }
-
-
     });
   }
 
   loadDocumentTypes(): void {
-    // this.personTypeDocumentService.getAll().subscribe(data => {
-    //   this.documentTypes = data;
-    // });
+    this._personTypeDocumentService.getAutoComplete().subscribe({
+      next: (data: AutocompleteResponse[]) => {
+        this.personTypeDocuments = data;
+
+      },
+      error: (err) => { },
+      complete: () => { }
+    });
   }
 
   loadGenders(): void {
-    // this.personGenderService.getAll().subscribe(data => {
-    //   this.genders = data;
-    // });
+    this._personGenderService.getAutoComplete().subscribe({
+      next: (data: AutocompleteResponse[]) => {
+        this.personGender = data;
+
+      },
+      error: (err) => { },
+      complete: () => { }
+    });
   }
 
   loadPersonData(): void {
-    // this.personService.getById(this.personId).subscribe(person => {
-    //   this.personForm.patchValue({
-    //     id_person_type: person.id_person_type,
-    //     id_person_type_document: person.id_person_type_document,
-    //     document: person.document,
-    //     name: person.name,
-    //     last_name_first: person.last_name_first,
-    //     last_name_second: person.last_name_second,
-    //     blood_type: person.blood_type,
-    //     birth_date: this.formatDate(person.birth_date),
-    //     id_gender: person.id_gender,
-    //     id_status: person.id_status
-    //   });
-    // });
+
   }
 
   private formatDate(date: string): string {
@@ -130,31 +127,7 @@ export class MantPersonaEditComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // if (this.personForm.valid) {
-    //   const personData = this.personForm.value;
 
-    //   if (this.personId) {
-    //     // Actualizar persona existente
-    //     this.personService.update(this.personId, personData).subscribe({
-    //       next: () => {
-    //         this.router.navigate(['/personas']);
-    //       },
-    //       error: (err) => {
-    //         console.error('Error al actualizar persona:', err);
-    //       }
-    //     });
-    //   } else {
-    //     // Crear nueva persona
-    //     this.personService.create(personData).subscribe({
-    //       next: () => {
-    //         this.router.navigate(['/personas']);
-    //       },
-    //       error: (err) => {
-    //         console.error('Error al crear persona:', err);
-    //       }
-    //     });
-    //   }
-    // }
   }
 
   onCancel(): void {
