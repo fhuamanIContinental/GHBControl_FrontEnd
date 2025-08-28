@@ -7,7 +7,7 @@ import { SHARED_MANT_IMPORTS } from '../../../shared/shared-mant';
 import { MantPersonaEditComponent } from './mant-persona-edit/mant-persona-edit.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NumbersOnlyDirective } from '../../../directivas/NumbersOnlyDirective';
-import { MantPersonaService } from '../../../services/mant-persona.service';
+import { PersonService } from '../../../services/person.service';
 import { ChangeDetectorRef } from '@angular/core';
 
 
@@ -34,7 +34,7 @@ export class MantPersonaComponent implements OnInit {
   constructor(
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
-    private _personaService: MantPersonaService
+    private _personaService: PersonService
   ) {
     this.formFilter = this.fb.group({
       fullname: ['', []],

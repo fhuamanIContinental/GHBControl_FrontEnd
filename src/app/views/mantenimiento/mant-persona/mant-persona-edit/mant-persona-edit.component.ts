@@ -8,6 +8,7 @@ import { PersonTypeService } from '../../../../services/person-type.service';
 import { AutocompleteResponse } from '../../../../models/autocomplete-response.model';
 import { VistaPersonaResponse } from '../../../../models/VistaPersonaResponse';
 import { forkJoin } from 'rxjs';
+import { PersonService } from '../../../../services/person.service';
 
 
 
@@ -31,6 +32,8 @@ export class MantPersonaEditComponent implements OnInit {
   personTypes_all: AutocompleteResponse[] = [];
   personTypeDocuments_all: AutocompleteResponse[] = [];
   personGender_all: AutocompleteResponse[] = [];
+  personStatuses: AutocompleteResponse[] = [];
+  personStatuses_all: AutocompleteResponse[] = [];
   documentTypes: any[] = [];
   genders: any[] = [];
 
@@ -39,6 +42,7 @@ export class MantPersonaEditComponent implements OnInit {
   _personTypeService = inject(PersonTypeService);
   _personTypeDocumentService = inject(PersonTypeDocumentService);
   _personGenderService = inject(PersonGenderService);
+  _personService = inject(PersonService);
 
 
   constructor(
@@ -57,7 +61,7 @@ export class MantPersonaEditComponent implements OnInit {
       blood_type: [null, Validators.maxLength(5)],
       birthDate: [new Date(), []],
       idGender: [null, [Validators.required]],
-      id_status: ['1', Validators.required]
+      idStatus: ['1', Validators.required]
     });
   }
 
@@ -71,13 +75,15 @@ export class MantPersonaEditComponent implements OnInit {
     forkJoin({
       personTypes: this._personTypeService.getAutoComplete(),
       personTypeDocuments: this._personTypeDocumentService.getAutoComplete(),
-      personGender: this._personGenderService.getAutoComplete()
+      personGender: this._personGenderService.getAutoComplete(),
+      personStatuses: this._personService.getStatus()
     }).subscribe({
-      next: ({ personTypes, personTypeDocuments, personGender }) => {
+      next: ({ personTypes, personTypeDocuments, personGender, personStatuses }) => {
         // aquí asignas a tus variables locales si quieres
         this.personTypes_all = personTypes;
         this.personTypeDocuments_all = personTypeDocuments;
         this.personGender_all = personGender;
+        this.personStatuses_all = personStatuses;
       },
       error: (err) => {
         console.error('Error cargando datos', err);
@@ -91,6 +97,8 @@ export class MantPersonaEditComponent implements OnInit {
           idPersonType: this.personTypes_all.find(x => x.id === this.data.idPersonType) || null,
           idPersonTypeDocument: this.personTypeDocuments_all.find(x => x.id === this.data.idPersonTypeDocument) || null,
           idGender: this.personGender_all.find(x => x.id === this.data.idGender) || null,
+          idStatus: this.personStatuses_all.find(x => x.id === this.data.idStatus) || null,
+
         });
       }
     });
@@ -162,6 +170,12 @@ export class MantPersonaEditComponent implements OnInit {
   }
   searchGenderPerson(query: string) {
     this.personGender = this.personGender_all.filter(p =>
+      p.text.toLowerCase().includes(query.toLowerCase())
+    );
+  }
+
+  searchPersonStatus(query: string) {
+    this.personStatuses = this.personStatuses_all.filter(p =>
       p.text.toLowerCase().includes(query.toLowerCase())
     );
   }

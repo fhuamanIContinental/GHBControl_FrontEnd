@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MantPersonaService } from './mant-persona.service';
+import { PersonService } from './person.service';
 
 describe('MantPersonaService', () => {
-  let service: MantPersonaService;
+  let service: PersonService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MantPersonaService);
+    service = TestBed.inject(PersonService);
   });
 
   it('should be created', () => {
