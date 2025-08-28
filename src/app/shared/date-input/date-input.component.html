@@ -1,6 +1,8 @@
-<p-floatlabel>
-    <p-datepicker [ngModel]="value" (ngModelChange)="setValue($event)" [placeholder]="placeholder" [showIcon]="showIcon"
-        dateFormat="dd/mm/yy" inputId="floatLabelDetail">
-    </p-datepicker>
-    <label for="floatLabelDetail">{{floatLabel}}</label>
-</p-floatlabel>
+<div class="modal-form">
+    <p-floatlabel>
+        <p-datepicker [ngModel]="value" (ngModelChange)="setValue($event)" [placeholder]="placeholder"
+            [showIcon]="showIcon" dateFormat="dd/mm/yy" inputId="floatLabelDetail" appendTo="body">
+        </p-datepicker>
+        <label for="floatLabelDetail">{{floatLabel}}</label>
+    </p-floatlabel>
+</div>

@@ -5,9 +5,9 @@ import { SHARED_MANT_IMPORTS } from '../../../../shared/shared-mant';
 import { PersonGenderService } from '../../../../services/person-gender.service';
 import { PersonTypeDocumentService } from '../../../../services/person-type-document.service';
 import { PersonTypeService } from '../../../../services/person-type.service';
-import { PersonService } from '../../../../services/person.service';
 import { AutocompleteResponse } from '../../../../models/autocomplete-response.model';
 import { VistaPersonaResponse } from '../../../../models/VistaPersonaResponse';
+import { forkJoin } from 'rxjs';
 
 
 
@@ -20,18 +20,22 @@ import { VistaPersonaResponse } from '../../../../models/VistaPersonaResponse';
 export class MantPersonaEditComponent implements OnInit {
 
   @Input() data: VistaPersonaResponse = new VistaPersonaResponse();
-
+  titleModal: string = "Editar Persona";
+  submitted: boolean = false;
 
   personForm: FormGroup;
   personId: number = 0;
   personTypes: AutocompleteResponse[] = [];
   personTypeDocuments: AutocompleteResponse[] = [];
   personGender: AutocompleteResponse[] = [];
+  personTypes_all: AutocompleteResponse[] = [];
+  personTypeDocuments_all: AutocompleteResponse[] = [];
+  personGender_all: AutocompleteResponse[] = [];
   documentTypes: any[] = [];
   genders: any[] = [];
 
 
-  _personService = inject(PersonService);
+
   _personTypeService = inject(PersonTypeService);
   _personTypeDocumentService = inject(PersonTypeDocumentService);
   _personGenderService = inject(PersonGenderService);
@@ -59,28 +63,39 @@ export class MantPersonaEditComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log(this.data);
-
-
-    this.personId = this.route.snapshot.params['id'];
-    // Cargar datos de combos
-    this.loadPersonTypes();
-    this.loadDocumentTypes();
-    this.loadGenders();
-
-
-
-    setTimeout(() => {
-      this.personForm.patchValue(this.data);
-      this.personForm.patchValue({
-        idPersonType: this.personTypes.find(x => x.id === this.data.idPersonType) || null,
-        idPersonTypeDocument: this.personTypeDocuments.find(x => x.id === this.data.idPersonTypeDocument) || null,
-        idGender: this.personGender.find(x => x.id === this.data.idGender) || null,
-      });
-    }, 3000);
+    this.inicializarVistas();
   }
 
+  inicializarVistas(): void {
 
+    forkJoin({
+      personTypes: this._personTypeService.getAutoComplete(),
+      personTypeDocuments: this._personTypeDocumentService.getAutoComplete(),
+      personGender: this._personGenderService.getAutoComplete()
+    }).subscribe({
+      next: ({ personTypes, personTypeDocuments, personGender }) => {
+        // aquí asignas a tus variables locales si quieres
+        this.personTypes_all = personTypes;
+        this.personTypeDocuments_all = personTypeDocuments;
+        this.personGender_all = personGender;
+      },
+      error: (err) => {
+        console.error('Error cargando datos', err);
+        // opcional: mostrar mensaje al usuario
+      },
+      complete: () => {
+        console.log("aaaa");
+
+        this.personForm.patchValue(this.data);
+        this.personForm.patchValue({
+          idPersonType: this.personTypes_all.find(x => x.id === this.data.idPersonType) || null,
+          idPersonTypeDocument: this.personTypeDocuments_all.find(x => x.id === this.data.idPersonTypeDocument) || null,
+          idGender: this.personGender_all.find(x => x.id === this.data.idGender) || null,
+        });
+      }
+    });
+
+  }
 
 
   loadPersonTypes(): void {
@@ -131,20 +146,24 @@ export class MantPersonaEditComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['/personas']);
+
   }
 
   searchPersonTypes(query: string) {
-    this.personTypes = [
-      { id: 1, text: 'Natural' },
-      { id: 2, text: 'Jurídica' }
-    ].filter(p => p.text.toLowerCase().includes(query.toLowerCase()));
+    this.personTypes = this.personTypes_all.filter(p =>
+      p.text.toLowerCase().includes(query.toLowerCase())
+    );
+  }
 
-    setTimeout(() => {
-      console.log(this.personForm.getRawValue());
-
-    }, 1000);
-
+  searchTypeDocumentPerson(query: string) {
+    this.personTypeDocuments = this.personTypeDocuments_all.filter(p =>
+      p.text.toLowerCase().includes(query.toLowerCase())
+    );
+  }
+  searchGenderPerson(query: string) {
+    this.personGender = this.personGender_all.filter(p =>
+      p.text.toLowerCase().includes(query.toLowerCase())
+    );
   }
 
 }

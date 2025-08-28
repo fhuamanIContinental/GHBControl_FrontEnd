@@ -4,12 +4,11 @@ import { GenericFilterRequest } from '../../../models/GenericFilterRequest';
 import { VistaPersonaResponse } from '../../../models/VistaPersonaResponse';
 import { GenericFilterResponse } from '../../../models/GenericFilterResponse';
 import { SHARED_MANT_IMPORTS } from '../../../shared/shared-mant';
-import { ModalComponent } from '../../../shared/modal/modal.component';
 import { MantPersonaEditComponent } from './mant-persona-edit/mant-persona-edit.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NumbersOnlyDirective } from '../../../directivas/NumbersOnlyDirective';
 import { MantPersonaService } from '../../../services/mant-persona.service';
-
+import { ChangeDetectorRef } from '@angular/core';
 
 
 
@@ -20,20 +19,20 @@ import { MantPersonaService } from '../../../services/mant-persona.service';
   styleUrl: './mant-persona.component.scss'
 })
 export class MantPersonaComponent implements OnInit {
-  @ViewChild('modal') modal!: ModalComponent;
 
   filter: GenericFilterRequest = new GenericFilterRequest();
   personas: VistaPersonaResponse[] = [];
   totalItems = 0; // ejemplo
   titleModal: string = '';
 
-  itemSelected: VistaPersonaResponse | null = null;
+  itemSelected: VistaPersonaResponse = new VistaPersonaResponse();
 
 
   formFilter: FormGroup;
 
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
     private _personaService: MantPersonaService
   ) {
@@ -47,24 +46,16 @@ export class MantPersonaComponent implements OnInit {
   visible: boolean = false;
 
   addItem() {
-    this.visible = true;
     this.itemSelected = new VistaPersonaResponse();
     this.titleModal = 'Nuevo Registro Persona';
-    // this.openModal();
+    this.visible = true;
+
   }
 
   editItem(data: VistaPersonaResponse) {
     this.itemSelected = data;
     this.titleModal = 'Editar Registro Persona';
-    this.openModal();
-  }
-
-  openModal() {
-    this.modal.open(MantPersonaEditComponent, {
-      size: 'xxl',
-      data: this.itemSelected
-
-    });
+    this.visible = true;
   }
 
   ngOnInit(): void {
@@ -77,18 +68,23 @@ export class MantPersonaComponent implements OnInit {
       next: (response: GenericFilterResponse<VistaPersonaResponse>) => {
         this.personas = response.list;
         this.totalItems = response.totalRecord;
-        console.log('Personas:', response);
+        this.loading = false;
       },
       error: (error) => {
         console.error('Error fetching personas:', error);
+        this.loading = false;
       }
     });
   }
 
-
-  onPageChanged(page: number) {
-    this.filter.page = page;
-    this.listarPersonas(); // método que obtiene la data paginada
+  loading: boolean = false;
+  onPageChanged(event: any) {
+    this.loading = true;
+    this.filter.page = Math.floor(event.first / event.rows) + 1; // página 1-based
+    this.listarPersonas();
+    this.cdr.detectChanges();
+    // this.filter.page = page;
+    // this.listarPersonas(); // método que obtiene la data paginada
   }
 
   btnBuscar() {

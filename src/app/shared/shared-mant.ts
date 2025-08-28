@@ -11,6 +11,9 @@ import { IftaLabelModule } from 'primeng/iftalabel';
 import { AutoFilledClassDirective } from '../directivas/FloatLabelFilledDirective';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { ToolbarModule } from 'primeng/toolbar';
 export const SHARED_MANT_IMPORTS = [
     CommonModule,
     AutocompleteInputComponent,
@@ -24,6 +27,6 @@ export const SHARED_MANT_IMPORTS = [
     DateInputComponent,
     AutoCompleteFormComponent,
     AutoCompleteModule, FloatLabelModule, FormsModule, IftaLabelModule, FloatLabelModule,
-    AutoFilledClassDirective, DialogModule, ButtonModule
+    AutoFilledClassDirective, DialogModule, ButtonModule, TableModule, TagModule, ToolbarModule
 
 ];

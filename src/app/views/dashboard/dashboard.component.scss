@@ -25,6 +25,8 @@ header .dropdown-menu {
     min-height: 100vh;
     z-index: 1050;
     position: relative;
+    background-color: #495057; // gris oscuro suave en lugar de casi negro
+    color: #f8f9fa;
 
     &.collapsed {
       width: 0 !important;
@@ -34,14 +36,16 @@ header .dropdown-menu {
     .nav-link {
       cursor: pointer;
       padding: 0.5rem 1rem;
+      color: #e9ecef;
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: #6c757d; // gris medio
+        color: #ffffff;
       }
     }
 
     .submenu {
-      background-color: #343a40;
+      background-color: #6c757d; // gris más claro que la barra
     }
 
     @media (max-width: 768px) {
@@ -66,6 +70,7 @@ header .dropdown-menu {
     display: flex;
     flex-direction: column;
     transition: margin-left 0.3s ease;
+    background-color: #f8f9fa; // gris claro de fondo para contraste
 
     section {
       flex: 1 0 auto;

@@ -9,7 +9,7 @@ import { FloatLabel } from 'primeng/floatlabel';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, DatePicker, FloatLabel],
   templateUrl: './date-input.component.html',
-  styleUrls: ['./date-input.component.css'],
+  styleUrls: ['./date-input.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

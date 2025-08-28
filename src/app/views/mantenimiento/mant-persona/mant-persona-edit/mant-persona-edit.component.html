@@ -1,106 +1,100 @@
-<div class="card">
-    <div class="card-body">
-        <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
-            <!-- Sección de información básica -->
-            <div class="row mt-4 mb-5">
-                <div class="col-md-4">
-                    <app-auto-complete-form formControlName="idPersonType" label="Tipo de persona"
-                        inputId="idPersonType" [suggestions]="personTypes" (search)="searchPersonTypes($event)">
-                    </app-auto-complete-form>
-                </div>
-                <div class="col-md-4">
+<ng-container>
+    <div class="card shadow-sm border-0 bg-light">
+        <div class="card-body">
+            <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
 
-                    <app-auto-complete-form formControlName="idPersonTypeDocument" label="Tipo de Documento"
-                        inputId="idPersonTypeDocument" [suggestions]="personTypeDocuments"
-                        (search)="searchPersonTypes($event)">
-                    </app-auto-complete-form>
-
-
-                </div>
-                <div class="col-md-4">
-                    <p-floatlabel>
-                        <input class="form-control" formControlName="document" id="document" pInputText
-                            autoFilledClass />
-                        <label for="document">N° de documento</label>
-                    </p-floatlabel>
-                </div>
-            </div>
-
-            <!-- Sección de nombres -->
-            <div class="row mt-1 mb-5">
-                <div class="col-md-4">
-                    <p-floatlabel>
-                        <input class="form-control" formControlName="name" id="name" pInputText autoFilledClass />
-                        <label for="name">Nombres</label>
-                    </p-floatlabel>
-
-                </div>
-                <div class="col-md-4">
-                    <p-floatlabel>
-                        <input class="form-control" formControlName="lastNameFirst" id="lastNameFirst" pInputText
-                            autoFilledClass />
-                        <label for="lastNameFirst">Apellido Paterno</label>
-                    </p-floatlabel>
-                </div>
-                <div class="col-md-4">
-                    <p-floatlabel>
-                        <input class="form-control" formControlName="lastNameSecond" id="lastNameSecond" pInputText
-                            autoFilledClass />
-                        <label for="lastNameSecond">Apellido Materno</label>
-                    </p-floatlabel>
-                </div>
-            </div>
-
-            <!-- Sección de datos adicionales -->
-            <div class="row mt-2 mb-3">
-                <div class="col-md-3">
-                    <div class="p-field">
-                        <!-- <label for="birthDate" class="form-label">Fecha de nacimiento</label> -->
-                        <app-date-input label="Fecha de Nacimiento" formControlName="birthDate"
-                            [floatLabel]="'Fecha Nacimiento'"></app-date-input>
-
+                <!-- Información Básica -->
+                <fieldset class="mb-4">
+                    <legend class="fw-bold text-primary small">Información Básica</legend>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <app-auto-complete-form formControlName="idPersonType" label="Tipo de persona"
+                                inputId="idPersonType" [suggestions]="personTypes" (search)="searchPersonTypes($event)">
+                            </app-auto-complete-form>
+                        </div>
+                        <div class="col-md-4">
+                            <app-auto-complete-form formControlName="idPersonTypeDocument" label="Tipo de Documento"
+                                inputId="idPersonTypeDocument" [suggestions]="personTypeDocuments"
+                                (search)="searchTypeDocumentPerson($event)">
+                            </app-auto-complete-form>
+                        </div>
+                        <div class="col-md-4">
+                            <p-floatlabel>
+                                <input class="form-control" formControlName="document" id="document" pInputText
+                                    autoFilledClass />
+                                <label for="document">N° de documento</label>
+                            </p-floatlabel>
+                        </div>
                     </div>
+                </fieldset>
 
-                </div>
-                <div class="col-md-3">
-                    <app-auto-complete-form formControlName="idGender" label="Tipo de Documento" inputId="idGender"
-                        [suggestions]="personGender" (search)="searchPersonTypes($event)">
-                    </app-auto-complete-form>
+                <!-- Nombres -->
+                <fieldset class="mb-4">
+                    <legend class="fw-bold text-primary small">Nombres y Apellidos</legend>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <p-floatlabel>
+                                <input class="form-control" formControlName="name" id="name" pInputText
+                                    autoFilledClass />
+                                <label for="name">Nombres</label>
+                            </p-floatlabel>
+                        </div>
+                        <div class="col-md-4">
+                            <p-floatlabel>
+                                <input class="form-control" formControlName="lastNameFirst" id="lastNameFirst"
+                                    pInputText autoFilledClass />
+                                <label for="lastNameFirst">Apellido Paterno</label>
+                            </p-floatlabel>
+                        </div>
+                        <div class="col-md-4">
+                            <p-floatlabel>
+                                <input class="form-control" formControlName="lastNameSecond" id="lastNameSecond"
+                                    pInputText autoFilledClass />
+                                <label for="lastNameSecond">Apellido Materno</label>
+                            </p-floatlabel>
+                        </div>
+                    </div>
+                </fieldset>
 
+                <!-- Datos adicionales -->
+                <fieldset class="mb-4">
+                    <legend class="fw-bold text-primary small">Datos Adicionales</legend>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <app-date-input label="Fecha de Nacimiento" formControlName="birthDate"
+                                [floatLabel]="'Fecha Nacimiento'"></app-date-input>
+                        </div>
+                        <div class="col-md-3">
+                            <app-auto-complete-form formControlName="idGender" label="Género" inputId="idGender"
+                                [suggestions]="personGender" (search)="searchGenderPerson($event)">
+                            </app-auto-complete-form>
+                        </div>
+                        <div class="col-md-3">
+                            <p-floatlabel>
+                                <input class="form-control" formControlName="blood_type" id="blood_type" pInputText
+                                    autoFilledClass />
+                                <label for="blood_type">Tipo de Sangre</label>
+                            </p-floatlabel>
+                        </div>
+                        <div class="col-md-3">
+                            <app-auto-complete-form formControlName="id_status" label="Estado" inputId="id_status"
+                                [suggestions]="personGender" (search)="searchGenderPerson($event)">
+                            </app-auto-complete-form>
+                        </div>
+                    </div>
+                </fieldset>
 
-                </div>
-                <div class="col-md-3">
-                    <p-floatlabel>
-                        <input class="form-control" formControlName="blood_type" id="blood_type" pInputText
-                            autoFilledClass />
-                        <label for="blood_type">Tipo de Sangre</label>
-                    </p-floatlabel>
-
-
-                </div>
-                <div class="col-md-3">
-                    <app-auto-complete-form formControlName="id_status" label="Estado" inputId="id_status"
-                        [suggestions]="personGender" (search)="searchPersonTypes($event)">
-                    </app-auto-complete-form>
-                    <!-- <label for="estado" class="form-label">Estado</label>
-                    <select class="form-select" id="estado" formControlName="id_status">
-                        <option value="1">ACTIVO</option>
-                        <option value="0">INACTIVO</option>
-                    </select> -->
-                </div>
-            </div>
-
-            <!-- Botones de acción -->
-            <div class="row">
-                <div class="col-md-12 text-end">
-                    <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">
+                <!-- Botones -->
+                <div class="text-end mt-4">
+                    <button type="button" class="btn btn-outline-secondary me-2" (click)="onCancel()">
                         <i class="bi bi-x-circle"></i> Cancelar
                     </button>
-                    <button type="submit" class="btn btn-primary" [disabled]="!personForm.valid">
-                        <i class="bi bi-save"></i> Guardar Cambios
+                    <button type="submit" class="btn btn-success" [disabled]="!personForm.valid">
+                        <i class="bi bi-save"></i> Guardar
                     </button>
                 </div>
-            </div>
-        </form>
+
+            </form>
+        </div>
     </div>
-</div>
+</ng-container>

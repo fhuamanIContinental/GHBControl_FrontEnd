@@ -13,9 +13,6 @@ export class AutoFilledClassDirective implements OnInit {
     ) { }
 
     ngOnInit() {
-        // 👀 Debug
-        console.log('Directiva inicializada en', this.el.nativeElement);
-
         // estado inicial
         this.toggleClass(this.control.value);
 
