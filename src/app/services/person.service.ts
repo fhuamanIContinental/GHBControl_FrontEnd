@@ -6,6 +6,8 @@ import { GenericFilterRequest } from '../models/GenericFilterRequest';
 import { GenericFilterResponse } from '../models/GenericFilterResponse';
 import { VistaPersonaResponse } from '../models/VistaPersonaResponse';
 import { AutocompleteResponse } from '../models/autocomplete-response.model';
+import { PersonaRequest } from '../models/persona-request.model';
+import { PersonaResponse } from '../models/persona-response.model';
 
 
 @Injectable({
@@ -36,4 +38,11 @@ export class PersonService {
   }
 
 
+  Create(data: PersonaRequest): Observable<PersonaResponse> {
+    return this.http.post<PersonaResponse>(`${this.apiUrl}`, data);
+  }
+
+  Update(data: PersonaRequest): Observable<PersonaResponse> {
+    return this.http.put<PersonaResponse>(`${this.apiUrl}`, data);
+  }
 }

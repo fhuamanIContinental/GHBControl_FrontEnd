@@ -92,6 +92,10 @@
                     <button type="submit" class="btn btn-success" [disabled]="!personForm.valid">
                         <i class="bi bi-save"></i> Guardar
                     </button>
+                    @if(personForm.invalid)
+                    {
+                    <small class="text-danger d-block mt-2">Por favor, complete todos los campos obligatorios.</small>
+                    }
                 </div>
 
             </form>

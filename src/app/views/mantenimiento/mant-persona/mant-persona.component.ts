@@ -102,4 +102,12 @@ export class MantPersonaComponent implements OnInit {
     this.listarPersonas();
   }
 
+  closeModal(event: boolean) {
+    this.visible = false;
+    if (event) {
+      this.listarPersonas();
+    }
+
+  }
+
 }

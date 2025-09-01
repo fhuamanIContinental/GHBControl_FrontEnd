@@ -23,14 +23,14 @@
                             <div class="col-12 col-md-4">
                                 <label for="nombre" class="form-label fw-bold">Nombre</label>
                                 <input type="text" id="nombre" formControlName="fullname" class="form-control"
-                                    placeholder="Buscar por nombre">
+                                    (keydown.enter)="btnBuscar()" placeholder="Buscar por nombre">
                             </div>
 
                             <!-- Documento -->
                             <div class="col-12 col-md-4">
                                 <label for="documento" class="form-label fw-bold">Documento</label>
                                 <input type="text" id="documento" formControlName="document" class="form-control"
-                                    placeholder="Número de documento" appNumbersOnly>
+                                    (keydown.enter)="btnBuscar()" placeholder="Número de documento" appNumbersOnly>
                             </div>
 
                             <!-- Botones -->
@@ -114,7 +114,7 @@
 <p-dialog header="{{titleModal}}" [modal]="true" [(visible)]="visible" styleClass="dialog-xl">
     @if (visible) {
     <ng-container>
-        <app-mant-persona-edit [data]="itemSelected"></app-mant-persona-edit>
+        <app-mant-persona-edit [data]="itemSelected" (onSave)="closeModal($event)"></app-mant-persona-edit>
     </ng-container>
     }
 </p-dialog>

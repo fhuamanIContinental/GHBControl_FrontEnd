@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, input, Input, OnInit, output, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SHARED_MANT_IMPORTS } from '../../../../shared/shared-mant';
@@ -9,6 +9,7 @@ import { AutocompleteResponse } from '../../../../models/autocomplete-response.m
 import { VistaPersonaResponse } from '../../../../models/VistaPersonaResponse';
 import { forkJoin } from 'rxjs';
 import { PersonService } from '../../../../services/person.service';
+import { PersonaRequest } from '../../../../models/persona-request.model';
 
 
 
@@ -20,9 +21,14 @@ import { PersonService } from '../../../../services/person.service';
 })
 export class MantPersonaEditComponent implements OnInit {
 
-  @Input() data: VistaPersonaResponse = new VistaPersonaResponse();
+  data = input<VistaPersonaResponse>(new VistaPersonaResponse());
+  onSave = output<boolean>();
+
+
+  registro: PersonaRequest = new PersonaRequest();
   titleModal: string = "Editar Persona";
   submitted: boolean = false;
+
 
   personForm: FormGroup;
   personId: number = 0;
@@ -52,6 +58,7 @@ export class MantPersonaEditComponent implements OnInit {
   ) {
 
     this.personForm = this.fb.group({
+      id: [null, Validators.required],
       idPersonType: [null, Validators.required],
       idPersonTypeDocument: [null, Validators.required],
       document: [null, [Validators.required, Validators.maxLength(20)]],
@@ -90,19 +97,15 @@ export class MantPersonaEditComponent implements OnInit {
         // opcional: mostrar mensaje al usuario
       },
       complete: () => {
-        console.log("aaaa");
-
-        this.personForm.patchValue(this.data);
+        this.personForm.patchValue(this.data());
         this.personForm.patchValue({
-          idPersonType: this.personTypes_all.find(x => x.id === this.data.idPersonType) || null,
-          idPersonTypeDocument: this.personTypeDocuments_all.find(x => x.id === this.data.idPersonTypeDocument) || null,
-          idGender: this.personGender_all.find(x => x.id === this.data.idGender) || null,
-          idStatus: this.personStatuses_all.find(x => x.id === this.data.idStatus) || null,
-
+          idPersonType: this.personTypes_all.find(x => x.id === this.data().idPersonType) || null,
+          idPersonTypeDocument: this.personTypeDocuments_all.find(x => x.id === this.data().idPersonTypeDocument) || null,
+          idGender: this.personGender_all.find(x => x.id === this.data().idGender) || null,
+          idStatus: this.personStatuses_all.find(x => x.id === this.data().idStatus) || null,
         });
       }
     });
-
   }
 
 
@@ -149,12 +152,10 @@ export class MantPersonaEditComponent implements OnInit {
     return d.toISOString().substring(0, 10);
   }
 
-  onSubmit(): void {
 
-  }
 
   onCancel(): void {
-
+    this.onSave.emit(false);
   }
 
   searchPersonTypes(query: string) {
@@ -179,5 +180,29 @@ export class MantPersonaEditComponent implements OnInit {
       p.text.toLowerCase().includes(query.toLowerCase())
     );
   }
+
+  onSubmit(): void {
+    this.registro = this.personForm.getRawValue();
+
+    this.registro.idPersonType = this.personForm.getRawValue().idPersonType?.id;
+    this.registro.idPersonTypeDocument = this.personForm.getRawValue().idPersonTypeDocument?.id;
+    this.registro.idGender = this.personForm.getRawValue().idGender?.id;
+    this.registro.idStatus = this.personForm.getRawValue().idStatus?.id;
+    this.registro.birthDate = this.formatDate(this.registro.birthDate);
+
+    const action$ = this.registro.id
+      ? this._personService.Update(this.registro)
+      : this._personService.Create(this.registro);
+
+    action$.subscribe({
+      next: (res) => {
+        this.onSave.emit(true);
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+
+
 
 }
