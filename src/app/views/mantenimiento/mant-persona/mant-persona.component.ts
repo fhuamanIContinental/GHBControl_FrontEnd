@@ -87,6 +87,8 @@ export class MantPersonaComponent implements OnInit {
     // this.listarPersonas(); // método que obtiene la data paginada
   }
 
+
+
   btnBuscar() {
     this.filter.filters = [
       { name: 'fullName', value: this.formFilter.value.fullname },
@@ -109,5 +111,7 @@ export class MantPersonaComponent implements OnInit {
     }
 
   }
+
+
 
 }

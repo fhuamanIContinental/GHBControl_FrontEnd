@@ -33,6 +33,13 @@
                                     (keydown.enter)="btnBuscar()" placeholder="Número de documento" appNumbersOnly>
                             </div>
 
+                            <!-- <div class="col-12 col-md-4">
+                                <label for="documento" class="form-label fw-bold">Documento</label>
+                                <input type="text" id="documento" formControlName="document" class="form-control"
+                                    (keydown.enter)="btnBuscar()" placeholder="Número de documento" appNumbersOnly>
+                            </div> -->
+
+
                             <!-- Botones -->
                             <div class="col-12 col-md-4 text-end">
                                 <div class="d-flex justify-content-end gap-2">
@@ -56,13 +63,14 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>ID</th>
-                                <th>Tipo Documento</th>
-                                <th>Tipo Persona</th>
+                                <th>T. Doc</th>
+                                <th>T. Persona</th>
                                 <th>Documento</th>
                                 <th>Apellido Paterno</th>
                                 <th>Apellido Materno</th>
                                 <th>Nombres</th>
                                 <th>Fecha Nacimiento</th>
+                                <th>Edad</th>
                                 <th>Género</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
@@ -80,6 +88,7 @@
                                 <td><span class="text-muted fst-italic">{{ item.lastNameSecond }}</span></td>
                                 <td><span class="text-muted fst-italic">{{ item.name }}</span></td>
                                 <td>{{ item.birthDate | date: 'dd/MM/yyyy' }}</td>
+                                <td>{{ item.edad}}</td>
                                 <td>{{ item.genero }}</td>
                                 <td>
                                     <p-tag [value]="item.estado"
@@ -90,13 +99,6 @@
                                     <button pButton pRipple icon="pi pi-pencil"
                                         class="p-button-sm p-button-rounded p-button-primary me-1"
                                         (click)="editItem(item)">
-                                    </button>
-                                    <!-- Configuración de empleado -->
-                                    <button pButton pRipple icon="pi pi-cog"
-                                        class="p-button-sm p-button-rounded p-button-warning me-1">
-                                    </button>
-                                    <button pButton pRipple icon="pi pi-trash"
-                                        class="p-button-sm p-button-rounded p-button-danger">
                                     </button>
                                 </td>
                             </tr>

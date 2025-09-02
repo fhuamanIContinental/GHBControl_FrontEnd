@@ -10,6 +10,7 @@ export const urlConstants = {
     personaType: `${apiUrl}/api/PersonType`,
     personaTypeDocument: `${apiUrl}/api/PersonTypeDocument`,
     personaGender: `${apiUrl}/api/PersonGender`,
+    empleado: `${apiUrl}/api/empleado`,
 }
 
 

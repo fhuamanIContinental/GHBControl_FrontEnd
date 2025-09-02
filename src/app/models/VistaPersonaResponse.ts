@@ -10,6 +10,7 @@ export class VistaPersonaResponse {
     lastNameSecond: string | null = "";
     bloodType: string | null = "";
     birthDate: string = "";
+    edad: number = 0;
     idGender: number = 0;
     genero: string | null = "";
     idStatus: number = 0;

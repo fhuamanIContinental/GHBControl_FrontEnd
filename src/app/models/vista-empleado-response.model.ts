@@ -1,0 +1,34 @@
+export class VistaEmpleadoResponse {
+    id: number = 0;
+    idPerson: number = 0;
+    document: string | null = "";
+    fullName: string | null = "";
+    idCargo: number = 0;
+    idEstablecimiento: number = 0;
+    idEstablecimientoLabor: number = 0;
+    idRegimen: number = 0;
+    idArea: number = 0;
+    idStatus: number = 0;
+    idTipoPlan: number = 0;
+    idCondicionHospital: number = 0;
+    idNivel: number = 0;
+    codigoAir: string | null = "";
+    montoRemuneracion: number | null = 0;
+    contratoVigente: string | null = "";
+    inicioContrato: string | null = "";
+    terminoContrato: string | null = "";
+    ceseContrato: string | null = "";
+    cargo: string | null = "";
+    establecimiento: string | null = "";
+    establecimientoLabor: string | null = "";
+    regimen: string | null = "";
+    area: string | null = "";
+    plan: string | null = "";
+    condicion: string | null = "";
+    nivel: string | null = "";
+    estado: string = "";
+    userCreate: number | null = 0;
+    userUpdate: number | null = 0;
+    dateCreate: string | null = "";
+    dateUpdate: string | null = "";
+}

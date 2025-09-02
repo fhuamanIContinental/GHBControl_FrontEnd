@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://cicloudghb.com/GHBControl',
+  apiUrl: 'https://localhost:7135',
   empresa: 'GHB Consultoría (DESARROLLO)'
 };
 
