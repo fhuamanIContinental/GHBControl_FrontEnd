@@ -1,0 +1,120 @@
+<div class="content-wrapper">
+    <section class="content p-3">
+        <div class="container-fluid">
+            <div class="card shadow-sm rounded">
+
+                <!-- Encabezado -->
+                <div class="card-header bg-dark text-white d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">
+                        <i class="fas fa-users me-2"></i> Mantenimiento de Personas
+                    </h5>
+                    <button pButton pRipple (click)="addItem()" icon="pi pi-plus" label="Crear"
+                        class="p-button-sm p-button-success"></button>
+                </div>
+
+                <!-- Contenido -->
+                <div class="card-body bg-white p-3">
+
+                    <!-- Formulario de búsqueda -->
+                    <form [formGroup]="formFilter" class="mb-4">
+                        <div class="row g-3 align-items-end">
+                            <!-- Nombre -->
+                            <div class="col-12 col-md-4">
+                                <label for="nombre" class="form-label fw-bold">Nombre</label>
+                                <input type="text" id="nombre" formControlName="fullname" class="form-control"
+                                    (keydown.enter)="btnBuscar()" placeholder="Buscar por nombre">
+                            </div>
+                            <!-- Documento -->
+                            <div class="col-12 col-md-4">
+                                <label for="documento" class="form-label fw-bold">Documento</label>
+                                <input type="text" id="documento" formControlName="document" class="form-control"
+                                    (keydown.enter)="btnBuscar()" placeholder="Número de documento" appNumbersOnly>
+                            </div>
+                            <!-- Botones -->
+                            <div class="col-12 col-md-4 text-end">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-outline-danger" (click)="btnLimpiar()">
+                                        <i class="fas fa-broom me-1"></i> Limpiar
+                                    </button>
+                                    <button type="button" class="btn btn-success" (click)="btnBuscar()">
+                                        <i class="fas fa-search me-1"></i> Buscar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Tabla de resultados con scroll horizontal -->
+                    <div class="tabla-wrapper">
+                        <p-table [value]="empleados" dataKey="id" [paginator]="true" [rows]="filter.quantity"
+                            [totalRecords]="totalItems" [lazy]="true" (onLazyLoad)="onPageChanged($event)"
+                            [loading]="loading" scrollable="true" scrollHeight="500px" styleClass="min-width-table">
+                            <!-- Encabezados -->
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>T. Doc</th>
+                                    <th>Documento</th>
+                                    <th>Nom. Completo</th>
+                                    <th>Edad</th>
+                                    <th>Est. Labor</th>
+                                    <th>Área</th>
+                                    <th>Cargo</th>
+                                    <th>Condición</th>
+                                    <th>Regimen</th>
+                                    <th>Nivel</th>
+                                    <th>Plan</th>
+                                    <th>Contrato Vigente</th>
+                                    <th>Fecha Inicio Contrato</th>
+                                    <th>Fecha Fin Contrato</th>
+                                    <th>Fecha Cese Contrato</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </ng-template>
+                            <!-- Filas -->
+                            <ng-template pTemplate="body" let-item>
+                                <tr>
+                                    <td>{{ item.id }}</td>
+                                    <td>{{ item.tipoDocumento }}</td>
+                                    <td><span class="text-muted fst-italic">{{ item.document }}</span></td>
+                                    <td><span class="text-muted fst-italic">{{ item.fullName }}</span></td>
+                                    <td>{{ item.edad }}</td>
+                                    <td>{{ item.establecimientoLabor }}</td>
+                                    <td>{{ item.area }}</td>
+                                    <td>{{ item.cargo }}</td>
+                                    <td>{{ item.condicion }}</td>
+                                    <td>{{ item.regimen }}</td>
+                                    <td>{{ item.nivel }}</td>
+                                    <td>{{ item.plan }}</td>
+                                    <td>{{ item.contratoVigente }}</td>
+                                    <td>{{ item.inicioContrato }}</td>
+                                    <td>{{ item.terminoContrato }}</td>
+                                    <td>{{ item.ceseContrato }}</td>
+                                    <td>
+                                        <p-tag [value]="item.estado"
+                                            [severity]="item.idStatus === 1 ? 'success' : 'danger'"></p-tag>
+                                    </td>
+                                    <td>
+                                        <button pButton pRipple icon="pi pi-pencil"
+                                            class="p-button-sm p-button-rounded p-button-primary me-1"
+                                            (click)="editItem(item)"></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Modal -->
+<p-dialog header="'hola mndo'" [modal]="true" [(visible)]="visible" styleClass="dialog-xl">
+    @if (visible) {
+    <ng-container>
+        <!-- <app-mant-persona-edit [data]="itemSelected" (onSave)="closeModal($event)"></app-mant-persona-edit> -->
+    </ng-container>
+    }
+</p-dialog>

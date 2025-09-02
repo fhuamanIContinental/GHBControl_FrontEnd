@@ -2,6 +2,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { Router, NavigationEnd, RouterModule } from '@angular/router';
+import { MenuService } from '../../services/menu.service';
+import { MenuAplicacionResponse } from './model/menu.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,14 +19,30 @@ export class DashboardComponent {
   isMobileView = false;
   showOverlay = false;
   currentRoute = '';
-
-  constructor(private router: Router) {
+  menus: MenuAplicacionResponse[] = [];
+  constructor(
+    private router: Router,
+    private _menuService: MenuService
+  ) {
     this.checkScreenSize();
     this.currentRoute = this.router.url;
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.urlAfterRedirects;
       }
+    });
+
+    this.obtenerMenu();
+  }
+
+
+  obtenerMenu() {
+    this._menuService.getMenu().subscribe({
+      next: (data: MenuAplicacionResponse[]) => {
+        this.menus = data;
+      },
+      error: (error) => { console.error('Error fetching menu:', error); },
+      complete: () => { }
     });
   }
 

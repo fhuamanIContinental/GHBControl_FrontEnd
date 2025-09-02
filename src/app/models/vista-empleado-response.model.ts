@@ -9,10 +9,12 @@ export class VistaEmpleadoResponse {
     idRegimen: number = 0;
     idArea: number = 0;
     idStatus: number = 0;
+    edad: number = 0;
     idTipoPlan: number = 0;
     idCondicionHospital: number = 0;
     idNivel: number = 0;
     codigoAir: string | null = "";
+    tipoDocumento: string | null = "";
     montoRemuneracion: number | null = 0;
     contratoVigente: string | null = "";
     inicioContrato: string | null = "";

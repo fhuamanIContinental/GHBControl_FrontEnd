@@ -9,52 +9,42 @@
     <nav [class.collapsed]="isSidebarCollapsed" class="sidebar bg-dark text-white">
       <div class="sidebar-header p-3 fw-bold border-bottom border-secondary">
         GHB CONTROL ASISTENCIA
-        <br>
+        <br />
         R.I.S. PICHANAKI
       </div>
+
+      <!-- Lista de menús dinámica -->
       <ul class="nav flex-column">
+        @for (menu of menus; track menu.id) {
         <li class="nav-item">
-          <a class="nav-link text-white" (click)="toggleSubmenu('mantenimiento')">
-            <i class="bi bi-tools"></i> Mantenimiento
+          <a class="nav-link text-white d-flex justify-content-between align-items-center"
+            (click)="toggleSubmenu(menu.id.toString())">
+            <span>
+              <i class="{{menu.icon}} me-2"></i>
+              {{menu.name}}
+            </span>
             <i class="bi" [ngClass]="{
-                'bi-chevron-down': !activeSubmenus['mantenimiento'],
-                'bi-chevron-up': activeSubmenus['mantenimiento']
+                'bi-chevron-down': !activeSubmenus[menu.id],
+                'bi-chevron-up': activeSubmenus[menu.id]
               }"></i>
           </a>
 
-          @if(activeSubmenus['mantenimiento']) {
+          @if(activeSubmenus[menu.id]) {
           <ul class="nav flex-column ms-3 submenu">
+            @for (sub of menu.subMenu; track sub.id) {
             <li class="nav-item">
-              <a class="nav-link text-white" routerLink="/dashboard/mantenimiento/persona" [ngClass]="{
-                  'list-item-active': isActiveSubroute(
-                    '/dashboard/mantenimiento/persona'
-                  )
-                }" (click)="closeOnMobile()">Persona</a>
+              <a class="nav-link text-white" [routerLink]="sub.url" [ngClass]="{
+                  'list-item-active': isActiveSubroute(sub.url)
+                }" (click)="closeOnMobile()">
+                <i class="{{sub.icon}} me-2"></i>
+                {{sub.name}}
+              </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" routerLink="/dashboard/mantenimiento/usuario" [ngClass]="{
-                  'list-item-active': isActiveSubroute(
-                    '/dashboard/dashboard/mantenimiento/usuario'
-                  )
-                }" (click)="closeOnMobile()">Usuario</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" routerLink="/dashboard/mantenimiento/cargo" [ngClass]="{
-                  'list-item-active': isActiveSubroute(
-                    '/dashboard/mantenimiento/cargo'
-                  )
-                }" (click)="closeOnMobile()">Cargo</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" routerLink="/dashboard/mantenimiento/horario" [ngClass]="{
-                  'list-item-active': isActiveSubroute(
-                    '/dashboard/mantenimiento/horario'
-                  )
-                }" (click)="closeOnMobile()">Horario</a>
-            </li>
+            }
           </ul>
           }
         </li>
+        }
       </ul>
     </nav>
 

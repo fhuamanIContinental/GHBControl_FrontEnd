@@ -4,11 +4,13 @@ import { MantCargoComponent } from './mant-cargo/mant-cargo.component';
 import { MantHorarioComponent } from './mant-horario/mant-horario.component';
 import { MantPersonaComponent } from './mant-persona/mant-persona.component';
 import { MantUsuarioComponent } from './mant-usuario/mant-usuario.component';
+import { MantEmpleadoComponent } from './mant-empleado/mant-empleado.component';
 
 
 
 export const MANTENIMIENTO_ROUTES: Routes = [
-    { path: 'persona', component: MantPersonaComponent },
+    { path: 'person', component: MantPersonaComponent },
+    { path: 'empleado', component: MantEmpleadoComponent },
     { path: 'usuario', component: MantUsuarioComponent },
     { path: 'cargo', component: MantCargoComponent },
     { path: 'horario', component: MantHorarioComponent }
